@@ -1,17 +1,18 @@
 const express = require('express');
 const app = express();
-const PORT = 4000
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
-app.listen(PORT, () => {
-    console.log(`API Listening on PORT ${PORT}`)
-})
+// app.get('/', (req, res) => {
+//     res.sendFile(__dirname + '/index.html');
+// });
 
-app.get('/', (req, res) => {
-    res.send('This is my API')
-})
+io.on('connection', (socket) => {
+    console.log('a user connected');
+});
 
-app.get('/about', (req, res) => {
-    res.send('This is my about')
-})
-
-module.exports = app
+server.listen(3000, () => {
+    console.log('listening on *:3000');
+});
